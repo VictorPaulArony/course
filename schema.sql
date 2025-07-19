@@ -1,8 +1,8 @@
-CREATE TABLE IF NOT EXISTS courses (
+CREATE TABLE IF NOT EXISTS course (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     description TEXT,
-    duration INT NOT NULL, -- Duration in weeks/months/years
+    duration INT NOT NULL, 
     start_date TIMESTAMP NOT NULL,
     end_date TIMESTAMP NOT NULL,
     mode ENUM('ONLINE', 'OFFLINE', 'HYBRID') NOT NULL, -- Mode of delivery
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS course_outline (
     content_type ENUM('PDF', 'VIDEO', 'LIVE', 'SLIDES') NOT NULL, 
     content_url VARCHAR(255), -- URL for the content (e.g., video, PDF)
     duration INT NOT NULL, -- Duration in minutes for v-- Type of content (PDF, Video, Text, Quiz)ideos or live sessions
-    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
+    FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS course_enrollment (
@@ -35,5 +35,5 @@ CREATE TABLE IF NOT EXISTS course_enrollment (
     payment_method ENUM('MPESA','CREDIT_CARD', 'PAYPAL', 'BANK_TRANSFER') DEFAULT 'CREDIT_CARD',
     UNIQUE (student_id, course_id),
     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
-    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
+    FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
 );
