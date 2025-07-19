@@ -1,0 +1,159 @@
+openapi: 3.0.3
+info:
+  title: Course API
+  description: REST API for managing courses in the LMS system.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api
+    description: Local development server
+
+paths:
+  /courses:
+    get:
+      summary: Get all courses
+      responses:
+        '200':
+          description: A list of courses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CourseDTO'
+
+    post:
+      summary: Create a new course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseDTOInput'
+      responses:
+        '201':
+          description: Course created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseDTO'
+
+  /courses/{id}:
+    get:
+      summary: Get a course by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Course found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseDTO'
+        '404':
+          description: Course not found
+
+    put:
+      summary: Update an existing course
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseDTOInput'
+      responses:
+        '200':
+          description: Course updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseDTO'
+        '404':
+          description: Course not found
+
+    delete:
+      summary: Delete a course
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Course deleted
+        '404':
+          description: Course not found
+
+components:
+  schemas:
+    CourseDTOInput:
+      type: object
+      required:
+        - title
+        - duration
+        - startDate
+        - endDate
+        - mode
+        - price
+        - teacherId
+        - paymentMethod
+      properties:
+        title:
+          type: string
+          example: Java Programming
+        description:
+          type: string
+          example: A complete guide to Java SE
+        duration:
+          type: integer
+          example: 90
+        startDate:
+          type: string
+          format: date-time
+          example: 2025-08-01T09:00:00
+        endDate:
+          type: string
+          format: date-time
+          example: 2025-11-01T17:00:00
+        mode:
+          type: string
+          enum: [ONLINE, OFFLINE, HYBRID]
+          example: ONLINE
+        price:
+          type: number
+          format: decimal
+          example: 199.99
+        teacherId:
+          type: integer
+          example: 1
+        paymentMethod:
+          type: string
+          enum: [CREDIT_CARD, PAYPAL, BANK_TRANSFER]
+          example: CREDIT_CARD
+        paymentAccount:
+          type: string
+          example: 4111-1111-1111-1111
+
+    CourseDTO:
+      allOf:
+        - $ref: '#/components/schemas/CourseDTOInput'
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            createdAt:
+              type: string
+              format: date-time
+              example: 2025-07-19T14:33:50.123456
