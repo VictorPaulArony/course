@@ -1,5 +1,6 @@
 package com.lms.course.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import jakarta.validation.constraints.*;
 
@@ -17,6 +18,10 @@ public class CourseEnrollmentDTO {
     private String paymentStatus;
     
     private String paymentMethod;
+
+    private BigDecimal amountPaidNow;
+
+    private BigDecimal amountRemaining;
     
     // Getters and Setters
     public Long getId() { return id; }
@@ -31,4 +36,8 @@ public class CourseEnrollmentDTO {
     public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
     public String getPaymentMethod() { return paymentMethod; }
     public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
+    public BigDecimal getAmountPaidNow() { return amountPaidNow; }
+    public void setAmountPaidNow(BigDecimal amountPaidNow) { this.amountPaidNow = amountPaidNow; }
+    public BigDecimal getAmountRemaining() { return amountRemaining; }
+    public void setAmountRemaining(BigDecimal amountRemaining) { this.amountRemaining = amountRemaining; }
 }
