@@ -82,4 +82,75 @@ curl -X DELETE http://localhost:8080/api/courses/1
 
 ---
 
+# Course Enrollment API Endpoints
+
+
+### 🔸 1. **Enroll a Student**
+
+**Endpoint:** `POST /api/enrollments`
+
+```bash
+curl -X POST http://localhost:8080/api/enrollments \
+  -H "Content-Type: application/json" \
+  -d '{
+    "studentId": 1,
+    "courseId": 1,
+    "paymentStatus": "PENDING",
+    "paymentMethod": "PAYPAL"
+}'
+```
+
+> ✅ `paymentStatus` should be one of: `PENDING`, `PARTIALLY_PAID`, `COMPLETED`, `FAILED`
+> ✅ `paymentMethod` should be one of: `CREDIT_CARD`, `PAYPAL`, `BANK_TRANSFER` (based on your naming assumption)
+
+---
+
+### 🔸 2. **Get Enrollments by Student ID**
+
+**Endpoint:** `GET /api/enrollments/student/{studentId}`
+
+```bash
+curl http://localhost:8080/api/enrollments/student/1
+```
+
+---
+
+### 🔸 3. **Get Enrollments by Course ID**
+
+**Endpoint:** `GET /api/enrollments/course/{courseId}`
+
+```bash
+curl http://localhost:8080/api/enrollments/course/1
+```
+
+---
+
+### 🔸 4. **Get Specific Enrollment (Student + Course)**
+
+**Endpoint:** `GET /api/enrollments/student/{studentId}/course/{courseId}`
+
+```bash
+curl http://localhost:8080/api/enrollments/student/1/course/1
+```
+
+---
+
+### 🔸 5. **Count Completed Enrollments for a Course**
+
+**Endpoint:** `GET /api/enrollments/course/{courseId}/count`
+
+```bash
+curl http://localhost:8080/api/enrollments/course/1/count
+```
+
+---
+
+### 🔸 6. **Get Enrollments by Teacher ID**
+
+**Endpoint:** `GET /api/enrollments/teacher/{teacherId}`
+
+```bash
+curl http://localhost:8080/api/enrollments/teacher/1```
+
+
 
