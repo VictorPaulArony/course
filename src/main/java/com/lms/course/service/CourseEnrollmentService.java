@@ -1,18 +1,21 @@
 package com.lms.course.service;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.lms.course.dto.CourseEnrollmentDTO;
 import com.lms.course.model.Course;
 import com.lms.course.model.CourseEnrollment;
+import com.lms.course.model.CourseEnrollment.PaymentStatus;
 import com.lms.course.repository.CourseEnrollmentRepository;
 import com.lms.course.repository.CourseRepository;
 
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CourseEnrollmentService {
@@ -43,6 +46,8 @@ public class CourseEnrollmentService {
         enrollment.setCourse(course);
         enrollment.setPaymentStatus(parsePaymentStatus(dto.getPaymentStatus()));
         enrollment.setPaymentMethod(parsePaymentMethod(dto.getPaymentMethod()));
+        enrollment.setAmountDue(course.getPrice());
+        enrollment.setAmountPaid(BigDecimal.ZERO);
 
         CourseEnrollment saved = enrollmentRepository.save(enrollment);
         return mapToDTO(saved);
@@ -84,6 +89,8 @@ public class CourseEnrollmentService {
         dto.setEnrollmentDate(entity.getEnrollmentDate());
         dto.setPaymentStatus(entity.getPaymentStatus().name());
         dto.setPaymentMethod(entity.getPaymentMethod().name());
+        dto.setAmountPaidNow(entity.getAmountPaid());
+        dto.setAmountRemaining(entity.getAmountDue().subtract(entity.getAmountPaid()));
         return dto;
     }
 
@@ -102,4 +109,42 @@ public class CourseEnrollmentService {
             return CourseEnrollment.PaymentMethod.CREDIT_CARD;
         }
     }
+
+    // update payment status
+    @Transactional
+    public CourseEnrollmentDTO updatePaymentStatus(Long studentId, Long courseId, BigDecimal amountPaidNow) {
+        if (amountPaidNow == null || amountPaidNow.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Invalid payment amount.");
+        }
+
+        return enrollmentRepository.findByStudentIdAndCourseId(studentId, courseId)
+                .map(enrollment -> {
+                    BigDecimal currentPaid = Optional.ofNullable(enrollment.getAmountPaid()).orElse(BigDecimal.ZERO);
+                    BigDecimal amountDue = Optional.ofNullable(enrollment.getAmountDue()).orElse(BigDecimal.ZERO);
+                    BigDecimal remaining = amountDue.subtract(currentPaid);
+
+                    // Check for overpayment
+                    if (amountPaidNow.compareTo(remaining) > 0) {
+                        throw new IllegalArgumentException(
+                                "Payment exceeds remaining balance. You can only pay up to " + remaining);
+                    }
+
+                    //  Safe to proceed
+                    BigDecimal newTotalPaid = currentPaid.add(amountPaidNow);
+                    enrollment.setAmountPaid(newTotalPaid);
+
+                    if (newTotalPaid.compareTo(amountDue) >= 0) {
+                        enrollment.setPaymentStatus(PaymentStatus.COMPLETED);
+                    } else {
+                        enrollment.setPaymentStatus(PaymentStatus.PARTIALLY_PAID);
+                    }
+
+                    CourseEnrollment updated = enrollmentRepository.save(enrollment);
+                    CourseEnrollmentDTO dto = mapToDTO(updated);
+                    dto.setAmountPaidNow(amountPaidNow); // optional: set last paid amount in response
+                    return dto;
+                })
+                .orElseThrow(() -> new IllegalArgumentException("Enrollment not found"));
+    }
+
 }
