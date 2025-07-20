@@ -103,3 +103,159 @@ JSON response examples for the Course Management API endpoints. These examples i
   "createdAt": "2025-07-19T14:33:50.123456"
 }
 ```
+
+
+---
+# Course Enrollment API Endpoints
+
+### ✅ Example: `POST /api/enrollments` — Enroll a Student
+
+**Request:**
+
+```json
+{
+  "studentId": 1,
+  "courseId": 1,
+  "paymentStatus": "PENDING",
+  "paymentMethod": "PAYPAL"
+}
+```
+
+**Response (HTTP 201 Created):**
+
+```json
+{
+  "id": 1,
+  "studentId": 1,
+  "courseId": 1,
+  "enrollmentDate": "2025-07-19T14:33:50.123456",
+  "paymentStatus": "PENDING",
+  "paymentMethod": "PAYPAL",
+  "amountPaidNow": 0.00,
+  "amountRemaining": 199.99
+}
+```
+
+---
+
+### ✅ Example: `GET /api/enrollments/student/1` — Get Enrollments by Student ID
+
+**Response (HTTP 200 OK):**
+
+```json
+[
+  {
+    "id": 1,
+    "studentId": 1,
+    "courseId": 1,
+    "enrollmentDate": "2025-07-19T14:33:50.123456",
+    "paymentStatus": "PENDING",
+    "paymentMethod": "PAYPAL",
+    "amountPaidNow": 0.00,
+    "amountRemaining": 199.99
+  },
+  {
+    "id": 2,
+    "studentId": 1,
+    "courseId": 2,
+    "enrollmentDate": "2025-07-19T14:35:12.987654",
+    "paymentStatus": "COMPLETED",
+    "paymentMethod": "BANK_TRANSFER",
+    "amountPaidNow": 249.00,
+    "amountRemaining": 0.00
+  }
+]
+```
+
+---
+
+### ✅ Example: `GET /api/enrollments/course/1` — Get Enrollments by Course ID
+
+**Response (HTTP 200 OK):**
+
+```json
+[
+  {
+    "id": 1,
+    "studentId": 1,
+    "courseId": 1,
+    "enrollmentDate": "2025-07-19T14:33:50.123456",
+    "paymentStatus": "PENDING",
+    "paymentMethod": "PAYPAL",
+    "amountPaidNow": 0.00,
+    "amountRemaining": 199.99
+  },
+  {
+    "id": 3,
+    "studentId": 2,
+    "courseId": 1,
+    "enrollmentDate": "2025-07-19T14:37:05.123456",
+    "paymentStatus": "COMPLETED",
+    "paymentMethod": "CREDIT_CARD",
+    "amountPaidNow": 199.99,
+    "amountRemaining": 0.00
+  }
+]
+```
+
+---
+
+### ✅ Example: `GET /api/enrollments/student/1/course/1` — Get Specific Enrollment
+
+**Response (HTTP 200 OK):**
+
+```json
+{
+  "id": 1,
+  "studentId": 1,
+  "courseId": 1,
+  "enrollmentDate": "2025-07-19T14:33:50.123456",
+  "paymentStatus": "PENDING",
+  "paymentMethod": "PAYPAL",
+  "amountPaidNow": 0.00,
+  "amountRemaining": 199.99
+}
+```
+
+---
+
+### ✅ Example: `GET /api/enrollments/course/1/count` — Count Completed Enrollments for a Course
+
+**Response (HTTP 200 OK):**
+
+```json
+2
+```
+
+---
+
+### ✅ Example: `GET /api/enrollments/teacher/1` — Get Enrollments by Teacher ID
+
+**Response (HTTP 200 OK):**
+
+```json
+[
+  {
+    "id": 1,
+    "studentId": 1,
+    "courseId": 1,
+    "enrollmentDate": "2025-07-19T14:33:50.123456",
+    "paymentStatus": "PENDING",
+    "paymentMethod": "PAYPAL",
+    "amountPaidNow": 0.00,
+    "amountRemaining": 199.99
+  },
+  {
+    "id": 3,
+    "studentId": 2,
+    "courseId": 1,
+    "enrollmentDate": "2025-07-19T14:37:05.123456",
+    "paymentStatus": "COMPLETED",
+    "paymentMethod": "CREDIT_CARD",
+    "amountPaidNow": 199.99,
+    "amountRemaining": 0.00
+  }
+]
+```
+
+---
