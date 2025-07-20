@@ -57,4 +57,15 @@ public class CourseEnrollmentController {
     public ResponseEntity<List<CourseEnrollmentDTO>> getEnrollmentsByTeacher(@PathVariable Long teacherId) {
         return ResponseEntity.ok(enrollmentService.getEnrollmentsByTeacher(teacherId));
     }
+
+    //update payment status
+    @PutMapping("/student/{studentId}/course/{courseId}/payment")
+public ResponseEntity<CourseEnrollmentDTO> updatePayment(
+        @PathVariable Long studentId,
+        @PathVariable Long courseId,
+        @RequestBody CourseEnrollmentDTO paymentDTO) {
+    CourseEnrollmentDTO updated = enrollmentService.updatePaymentStatus(studentId, courseId, paymentDTO.getAmountPaidNow());
+    return ResponseEntity.ok(updated);
+}
+
 }
