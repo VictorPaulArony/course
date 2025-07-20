@@ -31,8 +31,10 @@ CREATE TABLE IF NOT EXISTS course_enrollment (
     student_id BIGINT NOT NULL,
     course_id BIGINT NOT NULL,
     enrollment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    payment_status ENUM('PENDING', 'COMPLETED', 'FAILED') DEFAULT 'PENDING',
+    payment_status ENUM('PENDING', 'PARTIALLY_PAID', 'COMPLETED', 'FAILED') DEFAULT 'PENDING',
     payment_method ENUM('MPESA','CREDIT_CARD', 'PAYPAL', 'BANK_TRANSFER') DEFAULT 'CREDIT_CARD',
+    amount_due DECIMAL(10, 2) DEFAULT 0.00,
+    amount_paid DECIMAL(10, 2) DEFAULT 0.00,
     UNIQUE (student_id, course_id),
     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
