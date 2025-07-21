@@ -100,7 +100,47 @@ JSON response examples for the Course Management API endpoints. These examples i
   "teacherId": 1,
   "paymentMethod": "CREDIT_CARD",
   "paymentAccount": "4111-1111-1111-1111",
-  "createdAt": "2025-07-19T14:33:50.123456"
+  "createdAt": "2025-07-19T14:33:50.123456",
+  "courseOutlines": [
+    {
+      "id": 1,
+      "title": "Introduction to Java",
+      "description": "Basics of Java programming",
+      "orderIndex": 1,
+      "contentType": "VIDEO",
+      "contentUrl": "https://zone01kisumu.com/videos/java-intro.mp4",
+      "duration": 60
+    },
+    {
+      "id": 2,
+      "title": "Advanced Java Concepts",
+      "description": "Deep dive into Java",
+      "orderIndex": 2,
+      "contentType": "LIVE",
+      "contentUrl": "https://zone01kisumu.com/live-sessions/java-advanced",
+      "duration": 120
+    }
+  ],
+  "enrollments": [
+    {
+      "id": 1,
+      "studentId": 1,
+      "enrollmentDate": "2025-07-19T14:33:50.123456",
+      "paymentStatus": "PENDING",
+      "paymentMethod": "PAYPAL",
+      "amountPaidNow": 0.00,
+      "amountRemaining": 199.99
+    },
+    {
+      "id": 2,
+      "studentId": 2,
+      "enrollmentDate": "2025-07-19T14:35:12.987654",
+      "paymentStatus": "COMPLETED",
+      "paymentMethod": "BANK_TRANSFER",
+      "amountPaidNow": 249.00,
+      "amountRemaining": 0.00
+    }
+  ]
 }
 ```
 
@@ -259,3 +299,145 @@ JSON response examples for the Course Management API endpoints. These examples i
 ```
 
 ---
+
+### ✅ Example: `PUT /api/enrollments/1` — Update Payment Status for an Enrollment
+
+**Request:**
+
+```json
+{
+  "amountPaidNow": 199.99
+}
+```
+
+**Response (HTTP 200 OK):**
+
+```json
+{
+  "id": 1,
+  "studentId": 1,
+  "courseId": 1,
+  "enrollmentDate": "2025-07-19T14:33:50.123456",
+  "paymentStatus": "COMPLETED",
+  "paymentMethod": "PAYPAL",
+  "amountPaidNow": 199.99,
+  "amountRemaining": 0.00
+}
+```
+
+---
+
+# Course Outline API Endpoints
+
+### ✅ Example: `POST /api/courses/1/outlines` — Create Course Outline
+
+**Request:**
+
+```json
+{
+  "title": "Introduction to Java",
+  "description": "Basics of Java programming",
+  "orderIndex": 1,
+  "contentType": "VIDEO",
+  "contentUrl": "https://zone01kisumu.com/videos/java-intro.mp4",
+  "duration": 60
+}
+```
+
+**Response (HTTP 201 Created):**
+
+```json
+{
+  "id": 1,
+  "title": "Introduction to Java",
+  "description": "Basics of Java programming",
+  "orderIndex": 1,
+  "contentType": "VIDEO",
+  "contentUrl": "https://zone01kisumu.com/videos/java-intro.mp4",
+  "duration": 60
+}
+```
+
+---
+
+### ✅ Example: `GET /api/courses/1/outlines` — Get All Outlines for a Course
+
+**Response (HTTP 200 OK):**
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Introduction to Java",
+    "description": "Basics of Java programming",
+    "orderIndex": 1,
+    "contentType": "VIDEO",
+    "contentUrl": "https://zone01kisumu.com/videos/java-intro.mp4",
+    "duration": 60
+  },
+  {
+    "id": 2,
+    "title": "Advanced Java Concepts",
+    "description": "Deep dive into Java",
+    "orderIndex": 2,
+    "contentType": "LIVE",
+    "contentUrl": "https://zone01kisumu.com/live-sessions/java-advanced",
+    "duration": 120
+  }
+]
+```
+
+---
+
+### ✅ Example: `GET /api/courses/1/outlines/1` — Get Specific Outline
+
+**Response (HTTP 200 OK):**
+
+```json
+{
+  "id": 1,
+  "title": "Introduction to Java",
+  "description": "Basics of Java programming",
+  "orderIndex": 1,
+  "contentType": "VIDEO",
+  "contentUrl": "https://zone01kisumu.com/videos/java-intro.mp4",
+  "duration": 60
+}
+```
+
+---
+
+### ✅ Example: `PUT /api/courses/1/outlines/1` — Update Outline
+
+**Request:**
+
+```json
+{
+  "title": "Introduction to Java - Updated",
+  "description": "Basics of Java programming - Updated",
+  "orderIndex": 1,
+  "contentType": "VIDEO",
+  "contentUrl": "https://zone01kisumu.com/videos/java-intro-updated.mp4",
+  "duration": 60
+}
+```
+
+**Response (HTTP 200 OK):**
+
+```json
+{
+  "id": 1,
+  "title": "Introduction to Java - Updated",
+  "description": "Basics of Java programming - Updated",
+  "orderIndex": 1,
+  "contentType": "VIDEO",
+  "contentUrl": "https://zone01kisumu.com/videos/java-intro-updated.mp4",
+  "duration": 60
+}
+```
+
+---
+
+### ✅ Example: `DELETE /api/courses/1/outlines/1` — Delete Outline
+
+**Response (HTTP 204 No Content):**
