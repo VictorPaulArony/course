@@ -5,10 +5,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.lms.course.model.CourseEnrollment.PaymentStatus;
-
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "course_enrollment", uniqueConstraints = @UniqueConstraint(columnNames = { "student_id", "course_id" }))
