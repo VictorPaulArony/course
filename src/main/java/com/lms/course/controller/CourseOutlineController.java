@@ -57,7 +57,7 @@ public class CourseOutlineController {
     }
 
     // Get total duration
-    @GetMapping("/total-duration")
+    @GetMapping("/duration")
     public ResponseEntity<Integer> getTotalDuration(@PathVariable Long courseId) {
         return ResponseEntity.ok(courseOutlineService.getTotalDurationByCourseId(courseId));
     }
