@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lms.course.dto.CourseDTO;
+import com.lms.course.dto.CourseEnrollmentDTO;
+import com.lms.course.dto.CourseOutlineDTO;
 import com.lms.course.model.Course;
 import com.lms.course.repository.CourseRepository;
 
@@ -63,9 +65,10 @@ public class CourseService {
             existing.setPrice(updatedDTO.getPrice());
             existing.setTeacherId(updatedDTO.getTeacherId());
             existing.setPaymentMethod(Course.PaymentMethod.valueOf(updatedDTO.getPaymentMethod().toUpperCase()));
-            existing.setPaymentAccount(updatedDTO.getPaymentAccount() != null && !updatedDTO.getPaymentAccount().isEmpty() 
-                    ? updatedDTO.getPaymentAccount() 
-                    : "N/A");
+            existing.setPaymentAccount(
+                    updatedDTO.getPaymentAccount() != null && !updatedDTO.getPaymentAccount().isEmpty()
+                            ? updatedDTO.getPaymentAccount()
+                            : "N/A");
 
             return mapToDTO(courseRepository.save(existing));
         });
@@ -83,8 +86,8 @@ public class CourseService {
         course.setPrice(dto.getPrice());
         course.setTeacherId(dto.getTeacherId());
         course.setPaymentMethod(Course.PaymentMethod.valueOf(dto.getPaymentMethod().toUpperCase()));
-        course.setPaymentAccount(dto.getPaymentAccount() != null && !dto.getPaymentAccount().isEmpty() 
-                ? dto.getPaymentAccount() 
+        course.setPaymentAccount(dto.getPaymentAccount() != null && !dto.getPaymentAccount().isEmpty()
+                ? dto.getPaymentAccount()
                 : "N/A");
         return course;
     }
@@ -104,6 +107,42 @@ public class CourseService {
         dto.setPaymentMethod(course.getPaymentMethod().toString());
         dto.setPaymentAccount(course.getPaymentAccount());
         dto.setCreatedAt(course.getCreatedAt());
+
+        // Force loading of lazy collections
+        if (course.getCourseOutline() != null) {
+            dto.setCourseOutlines(
+                    course.getCourseOutline().stream()
+                            .map(outline -> {
+                                CourseOutlineDTO o = new CourseOutlineDTO();
+                                o.setId(outline.getId());
+                                o.setTitle(outline.getTitle());
+                                o.setDescription(outline.getDescription());
+                                o.setOrderIndex(outline.getOrderIndex());
+                                o.setContentType(outline.getContentType().toString());
+                                o.setContentUrl(outline.getContentUrl());
+                                o.setDuration(outline.getDuration());
+                                return o;
+                            })
+                            .collect(Collectors.toList()));
+        }
+
+        if (course.getEnrollments() != null) {
+            dto.setEnrollments(
+                    course.getEnrollments().stream()
+                            .map(enrollment -> {
+                                CourseEnrollmentDTO e = new CourseEnrollmentDTO();
+                                e.setId(enrollment.getId());
+                                e.setStudentId(enrollment.getStudentId());
+                                e.setEnrollmentDate(enrollment.getEnrollmentDate());
+                                e.setPaymentStatus(enrollment.getPaymentStatus().toString());
+                                e.setPaymentMethod(enrollment.getPaymentMethod().toString());
+                                e.setAmountPaidNow(enrollment.getAmountPaid());
+                                e.setAmountRemaining(enrollment.getAmountDue());
+                                return e;
+                            })
+                            .collect(Collectors.toList()));
+        }
+
         return dto;
     }
 }
