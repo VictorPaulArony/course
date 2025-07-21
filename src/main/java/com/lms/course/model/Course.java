@@ -56,6 +56,9 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CourseOutline> courseOutline;
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CourseEnrollment> enrollments;
+
     public enum Mode {
         ONLINE, OFFLINE, HYBRID
     }
@@ -90,6 +93,7 @@ public class Course {
     public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
     public List<CourseOutline> getCourseOutline() {return courseOutline;}
     public void setCourseOutline(List<CourseOutline> courseOutline) {this.courseOutline = courseOutline;}
- 
+    public List<CourseEnrollment> getEnrollments() {return enrollments;}
+    public void setEnrollments(List<CourseEnrollment> enrollments) {this.enrollments = enrollments;}
     
 }
