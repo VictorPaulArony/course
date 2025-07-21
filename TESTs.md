@@ -9,11 +9,15 @@ To run these tests...
 
 ```bash
 chmod +x test-course-api.sh
+chmod +x test-course-outline.sh
+chmod +x test-entollment-api.sh
 ```
 Run the script to execute all test cases:
 
 ```bash
 ./test-course-api.sh
+./test-course-outline.sh
+./test-entollment-api.sh
 ```
 
 ### 🔸 1. Create a new course
@@ -34,7 +38,6 @@ curl -X POST http://localhost:8080/api/courses \
     "paymentAccount": "4111-1111-1111-1111"
   }'
 ```
-
 ---
 
 ### 🔸 2. Get a course by ID
@@ -42,7 +45,6 @@ curl -X POST http://localhost:8080/api/courses \
 ```bash
 curl -X GET http://localhost:8080/api/courses/1
 ```
-
 ---
 
 ### 🔸 3. Get all courses
@@ -153,4 +155,72 @@ curl http://localhost:8080/api/enrollments/course/1/count
 curl http://localhost:8080/api/enrollments/teacher/1```
 
 
+---
 
+### 🔸 7. **Update Payment Status for an Enrollment**
+
+**Endpoint:** `PUT /api/enrollments/{enrollmentId}`
+
+```bash
+curl -X PUT http://localhost:8080/api/enrollments/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amountPaidNow": 199.99
+}'
+```
+
+# Course Outline API Endpoints
+
+## Create a Course Outline
+
+```bash
+curl -X POST http://localhost:8080/api/courses/1/outlines \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Introduction to Java",
+    "description": "Basics of Java programming",
+    "orderIndex": 1,
+    "contentType": "VIDEO",
+    "contentUrl": "https://zone01kisumu.com/videos/java-intro.mp4",
+    "duration": 60
+  }'
+```
+
+## Get all Course Outlines for a Course
+
+```bash
+curl -X GET http://localhost:8080/api/courses/1/outlines
+```
+
+## Get a specific Course Outline
+
+```bash
+curl -X GET http://localhost:8080/api/courses/1/outlines/1
+```
+
+## Update a Course Outline
+
+```bash
+curl -X PUT http://localhost:8080/api/courses/1/outlines/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Introduction to Java - Updated",
+    "description": "Basics of Java programming - Updated",
+    "orderIndex": 1,
+    "contentType": "VIDEO",
+    "contentUrl": "https://zone01kisumu.com/videos/java-intro-updated.mp4",
+    "duration": 60
+  }'
+```
+
+## Delete a Course Outline
+
+```bash
+curl -X DELETE http://localhost:8080/api/courses/1/outlines/1
+``` 
+
+## get total duration of a course
+
+```bash
+curl -X GET http://localhost:8080/api/courses/1/outlines/total-duration
+``` 
