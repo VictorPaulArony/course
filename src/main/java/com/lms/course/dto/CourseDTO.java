@@ -74,6 +74,5 @@ public class CourseDTO {
     public List<CourseOutlineDTO> getCourseOutlines() { return courseOutlines; }
     public void setCourseOutlines(List<CourseOutlineDTO> courseOutlines) { this.courseOutlines = courseOutlines; }
     public List<CourseEnrollmentDTO> getEnrollments() { return enrollments; }
-    public void setEnrollments(List<CourseEnrollmentDTO> enrollments) { this.enrollments = enrollments; 
-}
+    public void setEnrollments(List<CourseEnrollmentDTO> enrollments) { this.enrollments = enrollments;}
 }
