@@ -39,3 +39,43 @@ CREATE TABLE IF NOT EXISTS course_enrollment (
     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS course_session (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    student_id BIGINT NOT NULL,
+    course_id BIGINT NOT NULL,
+    outline_id BIGINT NOT NULL, -- ID of the course outline this session belongs to
+    session_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    duration INT NOT NULL, -- Duration in minutes
+    status ENUM('COMPLETED', 'STARDED', 'NOT_STARTED') DEFAULT 'NOT_STARTED', 
+    UNIQUE (student_id, outline_id), -- Ensure a student can only have one session per outline
+    FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
+    FOREIGN KEY (outline_id) REFERENCES outline(id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS course_progress (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    student_id BIGINT NOT NULL,
+    outline_id BIGINT NOT NULL,
+    course_id BIGINT NOT NULL,
+    status ENUM('COMPLETED', 'IN_PROGRESS', 'NOT_STARTED', 'REVIEWED') DEFAULT 'NOT_STARTED', 
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (student_id, outline_id ), -- Ensure a student can only have one progress entry per outline
+    FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE,
+    FOREIGN KEY (outline_id) REFERENCES course_outline(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS student_course_progress (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    student_id BIGINT NOT NULL,
+    course_id BIGINT NOT NULL,
+    progress_percent DECIMAL(5,2) DEFAULT 0.00,
+    status ENUM('NOT_STARTED', 'IN_PROGRESS', 'COMPLETED') DEFAULT 'NOT_STARTED',
+    completed_at TIMESTAMP NULL,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (student_id, course_id),
+    FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
+);

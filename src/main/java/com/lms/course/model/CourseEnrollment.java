@@ -6,9 +6,15 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "course_enrollment", uniqueConstraints = @UniqueConstraint(columnNames = { "student_id", "course_id" }))
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CourseEnrollment {
 
     @Id
@@ -52,68 +58,7 @@ public class CourseEnrollment {
         MPESA, CREDIT_CARD, PAYPAL, BANK_TRANSFER
     }
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public CourseEnrollment(Long id) {
         this.id = id;
-    }
-
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-    public LocalDateTime getEnrollmentDate() {
-        return enrollmentDate;
-    }
-
-    public void setEnrollmentDate(LocalDateTime enrollmentDate) {
-        this.enrollmentDate = enrollmentDate;
-    }
-
-    public PaymentStatus getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(PaymentStatus paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public BigDecimal getAmountDue() {
-        return amountDue;
-    }
-
-    public void setAmountDue(BigDecimal amountDue) {
-        this.amountDue = amountDue;
-    }
-
-    public BigDecimal getAmountPaid() {
-        return amountPaid;
-    }
-
-    public void setAmountPaid(BigDecimal amountPaid) {
-        this.amountPaid = amountPaid;
     }
 }

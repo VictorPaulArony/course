@@ -21,3 +21,16 @@ The API documentation is available `APIs.md`
 ## Testing
 
 The API can be tested using the `TESTs.md`
+
+
+## How to Use
+Save as ai-commit-each.sh
+Make executable:
+```bash
+chmod +x ai-commit-each.sh
+```
+Run:
+```bash
+./ai-commit-each.sh
+```
+
