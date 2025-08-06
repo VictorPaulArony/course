@@ -1,5 +1,13 @@
 # ✅ API Summary
 
+| Method | Endpoint            | Description      |
+| ------ | ------------------- | ---------------- |
+| POST   | `/api/courses`      | Create course    |
+| GET    | `/api/courses/{id}` | Get course by ID |
+| GET    | `/api/courses`      | List all courses |
+| PUT    | `/api/courses/{id}` | Update course    |
+| DELETE | `/api/courses/{id}` | Delete course    |
+
 | Method | Endpoint                                          | Description                        |
 | ------ | ------------------------------------------------- | ---------------------------------- |
 | POST   | `/api/courses/{courseId}/outlines`                | Create new course outline          |
@@ -20,10 +28,3 @@
 | GET    | `/api/enrollments/teacher/{teacherId}`        | Get enrollments for teacher's courses |
 
 
-| Method | Endpoint            | Description      |
-| ------ | ------------------- | ---------------- |
-| POST   | `/api/courses`      | Create course    |
-| GET    | `/api/courses/{id}` | Get course by ID |
-| GET    | `/api/courses`      | List all courses |
-| PUT    | `/api/courses/{id}` | Update course    |
-| DELETE | `/api/courses/{id}` | Delete course    |
