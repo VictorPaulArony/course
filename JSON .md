@@ -1,10 +1,10 @@
-# JSON response
+# JSON Response
 
 JSON response examples for the Course Management API endpoints. These examples illustrate the expected structure and data types for successful responses from the API.
 
 ---
 
-### ✅ Example: `POST /api/courses` — Create Course
+### Example: `POST /api/courses` — Create Course
 
 **Request:**
 
@@ -44,7 +44,7 @@ JSON response examples for the Course Management API endpoints. These examples i
 
 ---
 
-### ✅ Example: `GET /api/courses` — Get All Courses
+### Example: `GET /api/courses` — Get All Courses
 
 **Response (HTTP 200 OK):**
 
@@ -83,7 +83,7 @@ JSON response examples for the Course Management API endpoints. These examples i
 
 ---
 
-### ✅ Example: `GET /api/courses/1` — Get Course by ID
+### Example: `GET /api/courses/1` — Get Course by ID
 
 **Response (HTTP 200 OK):**
 
@@ -148,7 +148,7 @@ JSON response examples for the Course Management API endpoints. These examples i
 ---
 # Course Enrollment API Endpoints
 
-### ✅ Example: `POST /api/enrollments` — Enroll a Student
+### Example: `POST /api/enrollments` — Enroll a Student
 
 **Request:**
 
@@ -178,7 +178,7 @@ JSON response examples for the Course Management API endpoints. These examples i
 
 ---
 
-### ✅ Example: `GET /api/enrollments/student/1` — Get Enrollments by Student ID
+### Example: `GET /api/enrollments/student/1` — Get Enrollments by Student ID
 
 **Response (HTTP 200 OK):**
 
@@ -209,7 +209,7 @@ JSON response examples for the Course Management API endpoints. These examples i
 
 ---
 
-### ✅ Example: `GET /api/enrollments/course/1` — Get Enrollments by Course ID
+### Example: `GET /api/enrollments/course/1` — Get Enrollments by Course ID
 
 **Response (HTTP 200 OK):**
 
@@ -240,7 +240,7 @@ JSON response examples for the Course Management API endpoints. These examples i
 
 ---
 
-### ✅ Example: `GET /api/enrollments/student/1/course/1` — Get Specific Enrollment
+### Example: `GET /api/enrollments/student/1/course/1` — Get Specific Enrollment
 
 **Response (HTTP 200 OK):**
 
@@ -259,7 +259,7 @@ JSON response examples for the Course Management API endpoints. These examples i
 
 ---
 
-### ✅ Example: `GET /api/enrollments/course/1/count` — Count Completed Enrollments for a Course
+### Example: `GET /api/enrollments/course/1/count` — Count Completed Enrollments for a Course
 
 **Response (HTTP 200 OK):**
 
@@ -269,7 +269,7 @@ JSON response examples for the Course Management API endpoints. These examples i
 
 ---
 
-### ✅ Example: `GET /api/enrollments/teacher/1` — Get Enrollments by Teacher ID
+### Example: `GET /api/enrollments/teacher/1` — Get Enrollments by Teacher ID
 
 **Response (HTTP 200 OK):**
 
@@ -300,7 +300,7 @@ JSON response examples for the Course Management API endpoints. These examples i
 
 ---
 
-### ✅ Example: `PUT /api/enrollments/1` — Update Payment Status for an Enrollment
+### Example: `PUT /api/enrollments/1` — Update Payment Status for an Enrollment
 
 **Request:**
 
@@ -329,7 +329,7 @@ JSON response examples for the Course Management API endpoints. These examples i
 
 # Course Outline API Endpoints
 
-### ✅ Example: `POST /api/courses/1/outlines` — Create Course Outline
+### Example: `POST /api/courses/1/outlines` — Create Course Outline
 
 **Request:**
 
@@ -360,7 +360,7 @@ JSON response examples for the Course Management API endpoints. These examples i
 
 ---
 
-### ✅ Example: `GET /api/courses/1/outlines` — Get All Outlines for a Course
+### Example: `GET /api/courses/1/outlines` — Get All Outlines for a Course
 
 **Response (HTTP 200 OK):**
 
@@ -389,7 +389,7 @@ JSON response examples for the Course Management API endpoints. These examples i
 
 ---
 
-### ✅ Example: `GET /api/courses/1/outlines/1` — Get Specific Outline
+### Example: `GET /api/courses/1/outlines/1` — Get Specific Outline
 
 **Response (HTTP 200 OK):**
 
@@ -407,7 +407,7 @@ JSON response examples for the Course Management API endpoints. These examples i
 
 ---
 
-### ✅ Example: `PUT /api/courses/1/outlines/1` — Update Outline
+### Example: `PUT /api/courses/1/outlines/1` — Update Outline
 
 **Request:**
 
@@ -438,6 +438,6 @@ JSON response examples for the Course Management API endpoints. These examples i
 
 ---
 
-### ✅ Example: `DELETE /api/courses/1/outlines/1` — Delete Outline
+### Example: `DELETE /api/courses/1/outlines/1` — Delete Outline
 
 **Response (HTTP 204 No Content):**
