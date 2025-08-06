@@ -5,7 +5,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CourseDTO {
 
     private Long id;
@@ -46,33 +52,4 @@ public class CourseDTO {
     
     private List<CourseEnrollmentDTO> enrollments;
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public Integer getDuration() { return duration; }
-    public void setDuration(Integer duration) { this.duration = duration; }
-    public LocalDateTime getStartDate() { return startDate; }
-    public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }
-    public LocalDateTime getEndDate() { return endDate; }
-    public void setEndDate(LocalDateTime endDate) { this.endDate = endDate; }
-    public String getMode() { return mode; }
-    public void setMode(String mode) { this.mode = mode; }
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
-    public Long getTeacherId() { return teacherId; }
-    public void setTeacherId(Long teacherId) { this.teacherId = teacherId; }
-    public String getPaymentMethod() { return paymentMethod; }
-    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
-    public String getPaymentAccount() { return paymentAccount; }
-    public void setPaymentAccount(String paymentAccount) { this.paymentAccount = paymentAccount; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public List<CourseOutlineDTO> getCourseOutlines() { return courseOutlines; }
-    public void setCourseOutlines(List<CourseOutlineDTO> courseOutlines) { this.courseOutlines = courseOutlines; }
-    public List<CourseEnrollmentDTO> getEnrollments() { return enrollments; }
-    public void setEnrollments(List<CourseEnrollmentDTO> enrollments) { this.enrollments = enrollments;}
 }
