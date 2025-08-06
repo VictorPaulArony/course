@@ -36,7 +36,7 @@ public class CourseProgress {
     private LocalDateTime lastUpdated;
 
     public enum Status {
-        COMPLETED, IN_PROGRESS, NOT_STARTED, REVIEWED
+        COMPLETED, IN_PROGRESS, NOT_STARTED
     }
 
 }
