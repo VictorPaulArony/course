@@ -17,6 +17,7 @@ public class CourseOutline {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
     @Column(nullable = false, length = 255)
@@ -27,6 +28,9 @@ public class CourseOutline {
 
     @Column(name = "order_index", nullable = false)
     private Integer orderIndex;
+
+     @Column(name = "total_expected_sessions", nullable = false)
+    private Integer totalExpectedSessions = 1;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
