@@ -7,10 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.lms.course.model.Course;
 import com.lms.course.model.CourseOutline;
 
 @Repository
 public interface CourseOutlineRepository extends JpaRepository<CourseOutline, Long> {
+    long countByCourse(Course course);
 
     List<CourseOutline> findByCourseIdOrderByOrderIndex(Long courseId);
 
