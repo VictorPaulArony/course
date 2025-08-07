@@ -6,8 +6,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// This is not a student's attendance, but a specific class/lecture/lab session.
 @Entity
 @Table(name = "course_session", uniqueConstraints = @UniqueConstraint(columnNames = { "student_id", "outline_id" }))
 @Data
@@ -31,16 +30,16 @@ public class CourseSession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "student_id", nullable = false)
-    private Long studentId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
-    private Course courseId;
+    private Course course;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "outline_id", nullable = false)
-    private CourseOutline outlineId;
+    private CourseOutline outline;
+
+    @Column(name = "session_name", nullable = false)
+    private String sessionName;
     
     @UpdateTimestamp
     @Column(name = "session_date", nullable = false)
@@ -49,11 +48,4 @@ public class CourseSession {
     @Column(name = "duration", nullable = false)
     private Integer duration;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private Status status = Status.NOT_STARTED;
-
-    public enum Status {
-        COMPLETED, STARTED, NOT_STARTED
-    }
 }
