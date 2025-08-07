@@ -9,13 +9,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CourseProgressDTOs {
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class CourseProgressDTO {
 
         private Long id;
 
@@ -31,10 +29,15 @@ public class CourseProgressDTOs {
         @Min(value = 1, message = "course Outline ID must be a positive number.")
         private Long courseId;
 
+        private String outlineTitle;
+        private Integer completedSessionsCount;
+        private Integer totalExpectedSessions;
+        private Double progressPercentage;
+
         @NotBlank(message = "Status must not be blank.")
         private String status;
 
         @NotNull(message = "last update must not be null.")
         private LocalDateTime lastUpdated;
-    }
+    
 }
