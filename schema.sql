@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS course_outline (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     order_index INT NOT NULL,
+    total_expected_sessions INT DEFAULT 1 NOT NULL,
     content_type ENUM('PDF', 'VIDEO', 'LIVE', 'SLIDES') NOT NULL, 
     content_url VARCHAR(255), -- URL for the content (e.g., video, PDF)
     duration INT NOT NULL, -- Duration in minutes for v-- Type of content (PDF, Video, Text, Quiz)ideos or live sessions
@@ -42,48 +43,41 @@ CREATE TABLE IF NOT EXISTS course_enrollment (
 
 CREATE TABLE IF NOT EXISTS course_session (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    student_id BIGINT NOT NULL,
     course_id BIGINT NOT NULL,
-    outline_id BIGINT NOT NULL, -- ID of the course outline this session belongs to
+    outline_id BIGINT NOT NULL,
+    session_name VARCHAR(255) NOT NULL,
     session_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     duration INT NOT NULL, -- Duration in minutes
-    status ENUM('COMPLETED', 'STARTED', 'NOT_STARTED') DEFAULT 'NOT_STARTED', 
-    UNIQUE (student_id, outline_id), -- Ensure a student can only have one session per outline
-    FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
     FOREIGN KEY (outline_id) REFERENCES outline(id) ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
 );
 
---Represents a scheduled session for a given outline (e.g., "Week 1 - Basics").
-CREATE TABLE course_outline_session (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    outline_id BIGINT NOT NULL,
-    session_date TIMESTAMP NOT NULL,
-    duration INT NOT NULL,
-    FOREIGN KEY (outline_id) REFERENCES course_outline(id) ON DELETE CASCADE
-);
-
---Tracks whether a student attended a particular CourseOutlineSession.
-CREATE TABLE student_session_attendance (
+-- This table tracks a student's attendance for each *specific scheduled course session*.
+CREATE TABLE IF NOT EXISTS student_attendance (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     student_id BIGINT NOT NULL,
-    session_id BIGINT NOT NULL,
-    status ENUM('PRESENT', 'ABSENT', 'NOT_MARKED') DEFAULT 'NOT_MARKED',
-    marked_by_teacher BOOLEAN DEFAULT FALSE,
-    UNIQUE (student_id, session_id),
+    course_session_id BIGINT NOT NULL, -- Refers to a specific scheduled session from course_session
+    attendance_status ENUM('PRESENT', 'ABSENT', 'EXCUSED') NOT NULL,
+    marked_by ENUM('TEACHER', 'SYSTEM') NOT NULL, -- Indicates if attendance was marked by a teacher or automatically by the system
+    marked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- When the attendance was recorded
+    UNIQUE (student_id, course_session_id), -- Ensures a student has only one attendance record per scheduled session
     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
-    FOREIGN KEY (session_id) REFERENCES course_outline_session(id) ON DELETE CASCADE
+    FOREIGN KEY (course_session_id) REFERENCES course_session(id) ON DELETE CASCADE
 );
 
+-- This table tracks the overall progress for a student *per course outline*.
+-- The progress is calculated based on the student's attendance in the sessions linked to that outline.
 CREATE TABLE IF NOT EXISTS course_progress (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     student_id BIGINT NOT NULL,
-    outline_id BIGINT NOT NULL,
-    course_id BIGINT NOT NULL,
-    status ENUM('COMPLETED', 'IN_PROGRESS', 'NOT_STARTED') DEFAULT 'NOT_STARTED', 
-    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (student_id, outline_id ), -- Ensure a student can only have one progress entry per outline
+    outline_id BIGINT NOT NULL, -- Refers to a specific topic/unit from course_outline
+    course_id BIGINT NOT NULL, -- Redundant but useful for direct queries and joins
+    completed_sessions_count INT DEFAULT 0 NOT NULL, -- Number of sessions a student has attended for this outline
+    progress_percentage DECIMAL(5,2) DEFAULT 0.00 NOT NULL, -- Calculated percentage of sessions completed for this outline
+    status ENUM('COMPLETED', 'IN_PROGRESS', 'NOT_STARTED') DEFAULT 'NOT_STARTED',
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Automatically updates on row modification
+    UNIQUE (student_id, outline_id), -- Ensures a student has only one progress entry per outline
     FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
-    FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE,
-    FOREIGN KEY (outline_id) REFERENCES course_outline(id) ON DELETE CASCADE
+    FOREIGN KEY (outline_id) REFERENCES course_outline(id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES course(id) ON DELETE CASCADE
 );
